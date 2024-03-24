@@ -1,2 +1,2 @@
-flit==3.9
 defusedxml==0.7.1
+flit==3.9
