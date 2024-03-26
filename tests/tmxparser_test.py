@@ -28,5 +28,17 @@ class TmxParserTest(unittest.TestCase):
             self.assertEqual(tus[0].values[1].lang, "fr")
             self.assertEqual(tus[0].values[1].value, "Bonjour tout le monde!")
 
+    def test_utf16le(self):
+        with TmxParser(get_test_file_path("utf16le.tmx"), encoding="utf-16le") as parser:
+            tus = [ v for v in parser]
+            self.assertEqual(len(tus), 1)
+            self.assertEqual(len(tus[0].values), 24)
+            greek = None
+            for tuv in tus[0].values:
+                if tuv.lang == "EL-01":
+                    greek = tuv.value
+            self.assertEqual(greek, "Εκτελεστικός κανονισμός (ΕΕ) 2021/484 της Επιτροπής")
+
+
 if __name__ == '__main__':
     unittest.main()

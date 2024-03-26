@@ -17,11 +17,12 @@ class Tu(NamedTuple):
 
 
 class TmxParser(object):
-    def __init__(self, path:str) -> None:
+    def __init__(self, path:str, encoding:str="utf-8") -> None:
         self.path = path
         self.fp = None
         self.elem_iterparse = None
         self.opened = False
+        self.encoding = encoding
         self.header_dict = {}
 
     @property
@@ -31,7 +32,7 @@ class TmxParser(object):
     def open(self) -> None:
         if self.opened:
             return
-        self.fp = open(self.path, "r", encoding="utf-8")
+        self.fp = open(self.path, "r", encoding=self.encoding)
         self.elem_iterparse = ET.iterparse(self.fp, events=["start", "end"])
         run = True
         while run and (n := self.elem_iterparse.__next__()):
